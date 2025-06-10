@@ -184,17 +184,27 @@ export default function CardHubExperiment() {
           </motion.h1>
           {/* Animated chevron and tooltip */}
           <div className="relative flex flex-col items-center mt-1">
-            <motion.div
-              initial={{ y: 0 }}
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.2, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}
-              className="text-white/80"
-              aria-hidden="true"
-            >
-              <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 6L14 14L24 6" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </motion.div>
+            {/* Chevron with limited animation */}
+            {(() => {
+              const [animateChevron, setAnimateChevron] = React.useState(true);
+              React.useEffect(() => {
+                const timeout = setTimeout(() => setAnimateChevron(false), 3200); // ~2.5-3 bounces
+                return () => clearTimeout(timeout);
+              }, []);
+              return (
+                <motion.div
+                  initial={{ y: 0 }}
+                  animate={animateChevron ? { y: [0, 6, 0] } : { y: 0 }}
+                  transition={animateChevron ? { duration: 1.2, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' } : { duration: 0.3 }}
+                  className="text-white/80"
+                  aria-hidden="true"
+                >
+                  <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6L14 14L24 6" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </motion.div>
+              );
+            })()}
             {/* Tooltip */}
             <span className="absolute top-7 left-1/2 -translate-x-1/2 text-xs text-white bg-black/70 px-3 py-1 rounded-xl opacity-0 pointer-events-none group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 select-none" style={{whiteSpace:'nowrap'}}>
               Open menu
