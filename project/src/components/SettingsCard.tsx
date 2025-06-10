@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import GradientButton from './GradientButton';
 import SettingRow from './SettingRow';
 import { AlgorandVerification } from './AlgorandVerification';
@@ -17,8 +17,23 @@ interface SettingsCardProps {
   forceExpanded?: boolean;
 }
 
+// Simple useMediaQuery hook
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) setMatches(media.matches);
+    const listener = () => setMatches(media.matches);
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
+  }, [matches, query]);
+  return matches;
+}
+
 const SettingsCard: React.FC<SettingsCardProps> = ({ forceExpanded = false }) => {
   const [isExpanded, setIsExpanded] = useState(forceExpanded);
+  const isMobile = useMediaQuery('(max-width: 640px)'); // Tailwind's sm breakpoint
+
   const [openSection, setOpenSection] = useState<string | null>(null);
   const [settings, setSettings] = useState({
     darkMode: true,
@@ -131,7 +146,8 @@ const SettingsCard: React.FC<SettingsCardProps> = ({ forceExpanded = false }) =>
     }
   ];
 
-  if (!isExpanded && !forceExpanded) {
+  // Compact card for mobile or if not expanded
+  if ((!isExpanded && !forceExpanded) || (isMobile && !forceExpanded)) {
     return (
       <div className="relative w-[320px]">
         <div className="flex flex-col h-[350px] p-8 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl shadow-black/20">
@@ -151,15 +167,16 @@ const SettingsCard: React.FC<SettingsCardProps> = ({ forceExpanded = false }) =>
     );
   }
 
+  // Expanded card for desktop/fullscreen
   return (
-    <div className="relative w-full max-w-[700px]">
+    <div className="relative w-full max-w-[900px]">
       <div
-        className="flex flex-col h-[600px] p-8 rounded-2xl shadow-xl shadow-black/20 border"
+        className="flex flex-col h-[80vh] min-h-[600px] p-10 rounded-2xl shadow-xl shadow-black/20 border bg-white/10 backdrop-blur-2xl border-white/20"
         style={{
           background: 'rgba(255,255,255,0.15)',
           border: '1px solid rgba(255,255,255,0.2)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
         }}
       >
         <div className="flex justify-between items-center mb-6">
