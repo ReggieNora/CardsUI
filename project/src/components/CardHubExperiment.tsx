@@ -401,9 +401,10 @@ export default function CardHubExperiment() {
           <div className="relative">
             <button
               onClick={closeExpandedCard}
-              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+              className="absolute top-4 right-4 z-20 w-12 h-12 p-0 rounded-full bg-white shadow-lg border border-white/30 hover:bg-pink-100 transition-colors flex items-center justify-center"
+              style={{ boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.18)' }}
             >
-              <span className="text-white text-xl">×</span>
+              <span className="text-pink-500 text-2xl font-extrabold leading-none">×</span>
             </button>
             <SettingsCard forceExpanded={true} />
           </div>
