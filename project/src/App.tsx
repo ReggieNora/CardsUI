@@ -13,8 +13,7 @@ import SimpleCompanyProfileCard from './components/SimpleCompanyProfileCard';
 import LandingPage from './components/LandingPage';
 import JobCard from './components/JobCard';
 import AboutPage from './components/AboutPage';
-import FlowingMenu from './components/FlowingMenu';
-import { getFlowingMenuItems, FlowingMenuItem } from './components/FlowingMenuItems';
+
 import GradientBackground from './components/GradientBackground';
 import ErrorBoundary from './components/ErrorBoundary';
 const CompleteProfileModal = React.lazy(() => import('./components/CompleteProfileModal')); // Lazy load for isolation
@@ -64,7 +63,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
   return localStorage.getItem('isAuthenticated') === 'true';
 });
-  // Overlay/modal state for FlowingMenu overlays
+
   const [swipeOpen, setSwipeOpen] = useState(false);
   const [messagesOpen, setMessagesOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -615,22 +614,6 @@ function App() {
       <GradientBackground animated={true} />
       {/* Always-visible Hamburger Menu */}
       <HamburgerMenu userName={"John Doe"} userRole={userType === 'employer' ? 'Employer' : 'Candidate'} onLogout={handleLogout} onCloseOverlay={closeAllOverlays} />
-      
-      <FlowingMenu 
-        items={getFlowingMenuItems(userType)}
-        onItemClick={(item: FlowingMenuItem) => {
-          switch (item.overlay) {
-            case 'swipe': setSwipeOpen(true); break;
-            case 'messages': setMessagesOpen(true); break;
-            case 'profile': setProfileOpen(true); break;
-            case 'settings': setSettingsOpen(true); break;
-            case 'coach': setCoachOpen(true); break;
-            case 'dashboard': setDashboardOpen(true); break;
-            case 'candidates': /* open candidates overlay if needed */ break;
-            default: break;
-          }
-        }}
-      />
       {/* Complete Profile Modal for new users */}
       {showCompleteProfile && (
         <>

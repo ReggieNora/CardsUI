@@ -124,22 +124,24 @@ export default function CardHubExperiment() {
   }, [location.state]);
 
   // Card definitions for each user type
-  const candidateMenuItems: MenuItem[] = initialMenuItems;
-  const employerMenuItems: MenuItem[] = [
-    {
-      key: "candidates",
-      label: "Candidates",
-      description: "Browse candidate profiles",
-      flippable: false,
-      color: "from-green-500 to-emerald-500",
-      icon: "🧑‍💼"
-    },
-    ...initialMenuItems.filter(item => item.key !== "jobs")
-      .map(item => item.key === "profile"
-        ? { ...item, key: "company", label: "Company", description: "View and edit your company profile", icon: "🏢" }
-        : item)
-  ];
-  const menuItems = userType === 'employer' ? employerMenuItems : candidateMenuItems;
+  function buildEmployerMenuItems() {
+    return [
+      {
+        key: "candidates",
+        label: "Candidates",
+        description: "Browse candidate profiles",
+        flippable: false,
+        color: "from-green-500 to-emerald-500",
+        icon: "🧑‍💼"
+      },
+      ...initialMenuItems.filter(item => item.key !== "jobs")
+        .map(item => item.key === "profile"
+          ? { ...item, key: "company", label: "Company", description: "View and edit your company profile", icon: "🏢" }
+          : item)
+    ];
+  }
+
+  const [menuItems, setMenuItems] = useState<MenuItem[]>(() => userType === 'employer' ? buildEmployerMenuItems() : initialMenuItems);
 
   // State for card stack management
   // const [menuItems, setMenuItems] = useState(initialMenuItems);
@@ -158,22 +160,15 @@ export default function CardHubExperiment() {
 
   // Handle card dismissal and recycling
   const handleCardDismiss = (direction: 'left' | 'right') => {
-    if (isAnimating) return;
-    
-    setIsAnimating(true);
-    
-    // Move the top card to the back of the stack
-    setTimeout(() => {
-      setMenuItems(prevItems => {
-        const [topCard, ...restCards] = prevItems;
-        return [...restCards, topCard];
-      });
-      
-      // Force re-render with new animation key
-      setAnimationKey(prev => prev + 1);
-      setIsAnimating(false);
-    }, 300); // Match the exit animation duration
-  };
+  if (isAnimating) return;
+  setIsAnimating(true);
+  // Remove the top card from the stack
+  setTimeout(() => {
+    setMenuItems(prevItems => prevItems.slice(1));
+    setAnimationKey(prev => prev + 1);
+    setIsAnimating(false);
+  }, 300); // Match the exit animation duration
+};
 
   // Handle card interactions
   const handleCardAction = (item: MenuItem) => {
