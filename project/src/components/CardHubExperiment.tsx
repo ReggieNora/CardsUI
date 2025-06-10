@@ -223,14 +223,6 @@ export default function CardHubExperiment() {
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#18122B] via-[#251E40] to-[#1A1A2E] overflow-hidden">
       
-      {/* Logout Button (upper left) */}
-      <button
-        onClick={handleLogout}
-        className="absolute top-6 left-6 z-50 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl shadow-lg border border-white/20 font-semibold backdrop-blur-xl transition-all duration-200"
-        aria-label="Logout"
-      >
-        Logout
-      </button>
 
       {/* Hirly Branded Header */}
       <div className="absolute top-0 left-0 w-full flex flex-col items-center z-30 pt-10 pointer-events-auto select-none">
@@ -583,19 +575,7 @@ export default function CardHubExperiment() {
         </div>
       )}
 
-      {/* Logout Button */}
-      <motion.button
-        onClick={() => {/* TODO: implement actual logout logic */ window.location.href = '/logout'; }}
-        className="fixed top-8 left-8 z-50 flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl text-red-500 font-semibold shadow-2xl transition-all duration-300 hover:scale-105"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5, duration: 0.4 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <span className="text-lg">⎋</span>
-        <span>Logout</span>
-      </motion.button>
+
     </div>
   );
 }
