@@ -18,50 +18,51 @@ interface MenuItem {
 
 // Initial menu items data
 const initialMenuItems: MenuItem[] = [
-  { 
-    key: "profile", 
-    label: "Profile", 
-    description: "View and edit your profile", 
-    flippable: true,
-    color: "from-purple-500 to-pink-500",
-    icon: "👤"
-  },
-  { 
-    key: "coach", 
-    label: "Coach", 
-    description: "AI-powered career coaching", 
-    flippable: false,
-    color: "from-blue-500 to-cyan-500",
-    icon: "🤖"
-  },
-  { 
-    key: "jobs", 
-    label: "Jobs", 
-    description: "Browse job opportunities", 
+  {
+    key: "jobs",
+    label: "Jobs",
+    description: "Browse job opportunities",
     flippable: false,
     color: "from-green-500 to-emerald-500",
     icon: "💼"
   },
-  { 
-    key: "settings", 
-    label: "Settings", 
-    description: "Adjust your preferences", 
-    flippable: true,
-    color: "from-orange-500 to-red-500",
-    icon: "⚙️"
-  },
-  { 
-    key: "messages", 
-    label: "Messages", 
-    description: "Chat with recruiters", 
+  {
+    key: "messages",
+    label: "Messages",
+    description: "Chat with recruiters",
     flippable: false,
     color: "from-indigo-500 to-purple-500",
     icon: "💬"
   },
-  { 
-    key: "analytics", 
-    label: "Analytics", 
-    description: "View your job search stats", 
+  {
+    key: "settings",
+    label: "Settings",
+    description: "Adjust your preferences",
+    flippable: true,
+    color: "from-orange-500 to-red-500",
+    icon: "⚙️"
+  },
+  {
+    key: "coach",
+    label: "Coach",
+    description: "AI-powered career coaching",
+    flippable: false,
+    color: "from-blue-500 to-cyan-500",
+    icon: "🤖"
+  },
+  // Remaining cards
+  {
+    key: "profile",
+    label: "Profile",
+    description: "View and edit your profile",
+    flippable: true,
+    color: "from-purple-500 to-pink-500",
+    icon: "👤"
+  },
+  {
+    key: "analytics",
+    label: "Analytics",
+    description: "View your job search stats",
     flippable: false,
     color: "from-teal-500 to-blue-500",
     icon: "📊"
