@@ -410,6 +410,14 @@ export default function CardHubExperiment() {
             >
               <span className="text-white text-xl">×</span>
             </button>
+            {/* Edit Button */}
+            <button
+              onClick={() => alert('Edit profile (to be implemented)')}
+              className="absolute top-1/2 right-[-60px] z-10 px-5 py-2 rounded-xl bg-gradient-to-br from-purple-500 via-purple-400 to-pink-400 text-white font-bold shadow-lg border border-white/20 hover:scale-105 hover:bg-pink-500 transition-all"
+              style={{ transform: 'translateY(-50%)' }}
+            >
+              Edit
+            </button>
             <motion.div
               initial={{ rotateY: 90, opacity: 0 }}
               animate={{ rotateY: 0, opacity: 1 }}
