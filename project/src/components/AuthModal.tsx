@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import AuthForm from './AuthForm';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthModalProps {
   onAuthSuccess: (userType: 'candidate' | 'employer') => void;
@@ -14,6 +15,19 @@ const AuthModal: React.FC<AuthModalProps> = ({ onAuthSuccess, onClose, initialAu
   const [userType, setUserType] = useState<'candidate' | 'employer'>('candidate');
   const [authAction, setAuthAction] = useState<'signin' | 'signup'>(initialAuthAction);
   const [isClosing, setIsClosing] = useState(false);
+  const navigate = useNavigate();
+
+  // Helper to handle navigation after auth
+  const handleAuthSuccessAndRedirect = (type: 'candidate' | 'employer') => {
+    if (onAuthSuccess) onAuthSuccess(type);
+    navigate('/app/cards', { state: { userType: type } });
+  };
+
+  // Helper to handle navigation after signup
+  const handleSignupSuccessAndRedirect = (type: 'candidate' | 'employer') => {
+    if (onSignupSuccess) onSignupSuccess(type);
+    navigate('/app/cards', { state: { userType: type } });
+  };
 
   const handleClose = () => {
     setIsClosing(true);
@@ -49,14 +63,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ onAuthSuccess, onClose, initialAu
           </button>
 
           <AuthForm
-            onAuthSuccess={onAuthSuccess}
+            onAuthSuccess={handleAuthSuccessAndRedirect}
             authAction={authAction}
             userType={userType}
             onUserTypeChange={setUserType}
             onToggleAuthAction={() =>
               setAuthAction((current) => (current === 'signin' ? 'signup' : 'signin'))
             }
-            onSignupSuccess={onSignupSuccess}
+            onSignupSuccess={handleSignupSuccessAndRedirect}
           />
         </motion.div>
       </motion.div>

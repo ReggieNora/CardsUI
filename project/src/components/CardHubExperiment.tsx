@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FloatingDock } from "./ui/FloatingDock";
 import {
@@ -98,11 +99,52 @@ function generateStackPositions(totalCards: number) {
   }));
 }
 
+import SimpleCompanyProfileCard from "./SimpleCompanyProfileCard";
+
 export default function CardHubExperiment() {
+    // Set userType from router state if present
+  const location = useLocation();
+  const [userType, setUserType] = useState<'candidate' | 'employer'>(() => {
+    // Try to get userType from navigation state
+    const navState = location.state as { userType?: 'candidate' | 'employer' } | null;
+    if (navState && navState.userType && (navState.userType === 'candidate' || navState.userType === 'employer')) {
+      return navState.userType;
+    }
+    // Fallback to candidate
+    return 'candidate';
+  });
+
+  // Keep userType in sync if navigation state changes (e.g. after login)
+  useEffect(() => {
+    const navState = location.state as { userType?: 'candidate' | 'employer' } | null;
+    if (navState && navState.userType && navState.userType !== userType) {
+      setUserType(navState.userType);
+    }
+    // eslint-disable-next-line
+  }, [location.state]);
+
+  // Card definitions for each user type
+  const candidateMenuItems: MenuItem[] = initialMenuItems;
+  const employerMenuItems: MenuItem[] = [
+    {
+      key: "candidates",
+      label: "Candidates",
+      description: "Browse candidate profiles",
+      flippable: false,
+      color: "from-green-500 to-emerald-500",
+      icon: "🧑‍💼"
+    },
+    ...initialMenuItems.filter(item => item.key !== "jobs")
+      .map(item => item.key === "profile"
+        ? { ...item, key: "company", label: "Company", description: "View and edit your company profile", icon: "🏢" }
+        : item)
+  ];
+  const menuItems = userType === 'employer' ? employerMenuItems : candidateMenuItems;
+
   // State for card stack management
-  const [menuItems, setMenuItems] = useState(initialMenuItems);
+  // const [menuItems, setMenuItems] = useState(initialMenuItems);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [stackPositions] = useState(() => generateStackPositions(initialMenuItems.length));
+  const [stackPositions] = useState(() => generateStackPositions(menuItems.length));
   
   // Modal states
   const [showCoach, setShowCoach] = useState(false);
@@ -135,6 +177,16 @@ export default function CardHubExperiment() {
 
   // Handle card interactions
   const handleCardAction = (item: MenuItem) => {
+    if (userType === 'employer' && item.key === 'candidates') {
+      // Navigate to candidates (swipe)
+      window.location.href = '/app/candidates';
+      return;
+    }
+    if (userType === 'employer' && item.key === 'company') {
+      setExpandedCard('company');
+      return;
+    }
+
     switch (item.key) {
       case 'coach':
         setShowCoach(true);
@@ -142,6 +194,9 @@ export default function CardHubExperiment() {
       case 'settings':
       case 'profile':
         setExpandedCard(item.key);
+        break;
+      case 'company':
+        setExpandedCard('company');
         break;
       case 'jobs':
         // Navigate to jobs
@@ -441,8 +496,8 @@ export default function CardHubExperiment() {
         </div>
       )}
 
-      {/* Expanded Profile Card */}
-      {expandedCard === 'profile' && (
+      {/* Expanded Profile/Company Card */}
+      {expandedCard === 'profile' && userType === 'candidate' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-lg">
           <div className="relative">
             <button
@@ -475,6 +530,42 @@ export default function CardHubExperiment() {
                 meta1="React, TypeScript, Node.js"
                 meta2="Acme Corp"
                 meta3="MIT Alum"
+              />
+            </motion.div>
+          </div>
+        </div>
+      )}
+      {expandedCard === 'company' && userType === 'employer' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-lg">
+          <div className="relative">
+            <button
+              onClick={closeExpandedCard}
+              className="absolute top-4 right-4 z-20 w-12 h-12 p-0 rounded-full bg-white shadow-lg border border-white/30 hover:bg-pink-100 transition-colors flex items-center justify-center"
+              style={{ boxShadow: '0 2px 8px 0 rgba(168, 85, 247, 0.18)' }}
+            >
+              <span className="text-pink-500 text-2xl font-extrabold leading-none">×</span>
+            </button>
+            {/* Edit Button */}
+            <button
+              onClick={() => alert('Edit company profile (to be implemented)')}
+              className="absolute top-1/2 right-[-120px] z-10 px-5 py-2 rounded-xl bg-gradient-to-br from-purple-500 via-purple-400 to-pink-400 text-white font-bold shadow-lg border border-white/20 hover:scale-105 hover:bg-pink-500 transition-all"
+              style={{ transform: 'translateY(-50%)' }}
+            >
+              Edit
+            </button>
+            <motion.div
+              initial={{ rotateY: 90, opacity: 0 }}
+              animate={{ rotateY: 0, opacity: 1 }}
+              exit={{ rotateY: 90, opacity: 0 }}
+              transition={{ duration: 0.6, ease: [0.4, 0.8, 0.2, 1] }}
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              <SimpleCompanyProfileCard
+                companyName="Acme Corp"
+                industry="Software"
+                logoUrl="https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png"
+                description="Building next-gen hiring experiences for teams."
+                specialties={["AI Hiring", "Remote", "Tech"]}
               />
             </motion.div>
           </div>
