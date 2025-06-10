@@ -150,6 +150,9 @@ export default function CardHubExperiment() {
       case 'messages':
         setShowMessages(true);
         break;
+      case 'analytics':
+        setShowDashboard(true);
+        break;
       default:
         console.log(`${item.label} clicked`);
     }
