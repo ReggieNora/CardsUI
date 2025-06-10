@@ -95,6 +95,7 @@ export default function CardHubExperiment() {
   // Modal states
   const [showCoach, setShowCoach] = useState(false);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   
   // Animation key for forcing re-renders
   const [animationKey, setAnimationKey] = useState(0);
@@ -146,12 +147,17 @@ export default function CardHubExperiment() {
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#18122B] via-[#251E40] to-[#1A1A2E] overflow-hidden">
       
       {/* Hirly Branded Header */}
-      <div className="absolute top-0 left-0 w-full flex flex-col items-center z-30 pt-10 pointer-events-none select-none">
+      <div className="absolute top-0 left-0 w-full flex flex-col items-center z-30 pt-10 pointer-events-auto select-none">
         <motion.h1
+          onClick={() => setMenuOpen(open => !open)}
+          tabIndex={0}
+          role="button"
+          aria-label="Open menu"
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setMenuOpen(open => !open); }}
+          className="cursor-pointer text-5xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/30 drop-shadow-lg outline-none focus:ring-2 focus:ring-purple-400"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-5xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/30 drop-shadow-lg"
         >
           Hirly
         </motion.h1>
