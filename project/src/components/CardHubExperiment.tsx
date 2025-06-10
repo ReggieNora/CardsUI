@@ -219,7 +219,10 @@ export default function CardHubExperiment() {
                       title: "Home",
                       icon: <IconHome className="w-9 h-9 text-purple-300 drop-shadow-lg" />, // bigger and colored
                       href: "#",
-                      // No onClick yet
+                      onClick: () => {
+                        setMenuOpen(false);
+                        window.location.href = '/';
+                      }
                     },
                     ...menuItems.slice(Math.floor(menuItems.length / 2)).map(item => ({
                       title: item.label,
@@ -410,18 +413,18 @@ export default function CardHubExperiment() {
         </div>
       )}
 
-      {/* Back to Home Button */}
+      {/* Logout Button */}
       <motion.button
-        onClick={() => window.location.href = '/'}
-        className="fixed top-8 left-8 z-50 flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl text-white font-semibold shadow-2xl transition-all duration-300 hover:scale-105"
+        onClick={() => {/* TODO: implement actual logout logic */ window.location.href = '/logout'; }}
+        className="fixed top-8 left-8 z-50 flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl text-red-500 font-semibold shadow-2xl transition-all duration-300 hover:scale-105"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 0.4 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <span className="text-lg">←</span>
-        <span>Home</span>
+        <span className="text-lg">⎋</span>
+        <span>Logout</span>
       </motion.button>
     </div>
   );
