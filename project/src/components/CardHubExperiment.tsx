@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FloatingDock } from "./ui/FloatingDock";
 import {
@@ -213,9 +213,25 @@ export default function CardHubExperiment() {
     setExpandedCard(null);
   };
 
+  // Add logout logic
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#18122B] via-[#251E40] to-[#1A1A2E] overflow-hidden">
       
+      {/* Logout Button (upper left) */}
+      <button
+        onClick={handleLogout}
+        className="absolute top-6 left-6 z-50 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl shadow-lg border border-white/20 font-semibold backdrop-blur-xl transition-all duration-200"
+        aria-label="Logout"
+      >
+        Logout
+      </button>
+
       {/* Hirly Branded Header */}
       <div className="absolute top-0 left-0 w-full flex flex-col items-center z-30 pt-10 pointer-events-auto select-none">
         <div className="group flex flex-col items-center">
