@@ -8,6 +8,7 @@ import {
   IconBrain,
   IconUser,
   IconChartBar,
+  IconHome
 } from "@tabler/icons-react";
 import { DraggableCardContainer, DraggableCardBody } from "./ui/draggable-card";
 import logo from "../assets/hirly-logo.png";
@@ -194,24 +195,51 @@ export default function CardHubExperiment() {
                 className="mt-4 z-30"
               >
                 <FloatingDock
-                  items={menuItems.map(item => ({
-                    title: item.label,
-                    icon:
-                      item.key === "jobs" ? <IconBriefcase className="w-6 h-6" /> :
-                      item.key === "messages" ? <IconMessageCircle className="w-6 h-6" /> :
-                      item.key === "settings" ? <IconSettings className="w-6 h-6" /> :
-                      item.key === "coach" ? <IconBrain className="w-6 h-6" /> :
-                      item.key === "profile" ? <IconUser className="w-6 h-6" /> :
-                      item.key === "analytics" ? <IconChartBar className="w-6 h-6" /> : null,
-                    href: "#",
-                    onClick: () => {
-                      setMenuOpen(false);
-                      if (item.key === "coach") setShowCoach(true);
-                      else if (item.key === "settings" || item.key === "profile") setExpandedCard(item.key);
-                      else if (item.key === "jobs") window.location.href = "/app/jobs";
-                      // Add additional logic for other cards if needed
-                    }
-                  }))}
+                  items={[
+                    ...menuItems.slice(0, Math.floor(menuItems.length / 2)).map(item => ({
+                      title: item.label,
+                      icon:
+                        item.key === "jobs" ? <IconBriefcase className="w-6 h-6" /> :
+                        item.key === "messages" ? <IconMessageCircle className="w-6 h-6" /> :
+                        item.key === "settings" ? <IconSettings className="w-6 h-6" /> :
+                        item.key === "coach" ? <IconBrain className="w-6 h-6" /> :
+                        item.key === "profile" ? <IconUser className="w-6 h-6" /> :
+                        item.key === "analytics" ? <IconChartBar className="w-6 h-6" /> : null,
+                      href: "#",
+                      onClick: () => {
+                        setMenuOpen(false);
+                        if (item.key === "coach") setShowCoach(true);
+                        else if (item.key === "settings" || item.key === "profile") setExpandedCard(item.key);
+                        else if (item.key === "jobs") window.location.href = "/app/jobs";
+                        // Add additional logic for other cards if needed
+                      }
+                    })),
+                    // Home button in the middle
+                    {
+                      title: "Home",
+                      icon: <IconHome className="w-9 h-9 text-purple-300 drop-shadow-lg" />, // bigger and colored
+                      href: "#",
+                      // No onClick yet
+                    },
+                    ...menuItems.slice(Math.floor(menuItems.length / 2)).map(item => ({
+                      title: item.label,
+                      icon:
+                        item.key === "jobs" ? <IconBriefcase className="w-6 h-6" /> :
+                        item.key === "messages" ? <IconMessageCircle className="w-6 h-6" /> :
+                        item.key === "settings" ? <IconSettings className="w-6 h-6" /> :
+                        item.key === "coach" ? <IconBrain className="w-6 h-6" /> :
+                        item.key === "profile" ? <IconUser className="w-6 h-6" /> :
+                        item.key === "analytics" ? <IconChartBar className="w-6 h-6" /> : null,
+                      href: "#",
+                      onClick: () => {
+                        setMenuOpen(false);
+                        if (item.key === "coach") setShowCoach(true);
+                        else if (item.key === "settings" || item.key === "profile") setExpandedCard(item.key);
+                        else if (item.key === "jobs") window.location.href = "/app/jobs";
+                        // Add additional logic for other cards if needed
+                      }
+                    })),
+                  ]}
                   desktopClassName="mt-2"
                   mobileClassName="mt-2"
                 />
