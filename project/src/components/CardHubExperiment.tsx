@@ -144,10 +144,16 @@ export default function CardHubExperiment() {
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#18122B] via-[#251E40] to-[#1A1A2E] overflow-hidden">
       
-      {/* Background Logo */}
-      <div className="absolute z-10 flex flex-col items-center justify-center">
-        <img src={logo} alt="Hirly" className="w-32 h-32 mb-2 select-none pointer-events-none opacity-20" />
-        <span className="text-2xl font-extrabold text-white/20 drop-shadow-lg">Hirly</span>
+      {/* Hirly Branded Header */}
+      <div className="absolute top-0 left-0 w-full flex flex-col items-center z-30 pt-10 pointer-events-none select-none">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.4 }}
+          className="text-5xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/30 drop-shadow-lg"
+        >
+          Hirly
+        </motion.h1>
       </div>
 
       {/* Card Stack Container */}
