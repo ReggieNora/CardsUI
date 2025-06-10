@@ -15,6 +15,7 @@ import logo from "../assets/hirly-logo.png";
 import SettingsCard from "./SettingsCard";
 import CoachOverlay from "./CoachOverlay";
 import SimpleProfileCard from "./SimpleProfileCard";
+import MessagesOverlay from "./MessagesOverlay";
 
 // Menu item interface
 interface MenuItem {
@@ -104,6 +105,7 @@ export default function CardHubExperiment() {
   
   // Modal states
   const [showCoach, setShowCoach] = useState(false);
+  const [showMessages, setShowMessages] = useState(false);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   
@@ -142,6 +144,9 @@ export default function CardHubExperiment() {
       case 'jobs':
         // Navigate to jobs
         window.location.href = '/app/jobs';
+        break;
+      case 'messages':
+        setShowMessages(true);
         break;
       default:
         console.log(`${item.label} clicked`);
@@ -369,6 +374,11 @@ export default function CardHubExperiment() {
           </p>
         </motion.div>
       </div>
+
+      {/* Messages Overlay Modal */}
+      {showMessages && (
+        <MessagesOverlay onCollapse={() => setShowMessages(false)} />
+      )}
 
       {/* Coach Overlay Modal */}
       {showCoach && (
