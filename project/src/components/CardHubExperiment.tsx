@@ -14,6 +14,7 @@ import { DraggableCardContainer, DraggableCardBody } from "./ui/draggable-card";
 import logo from "../assets/hirly-logo.png";
 import SettingsCard from "./SettingsCard";
 import CoachOverlay from "./CoachOverlay";
+import DashboardOverlay from "./DashboardOverlay";
 import SimpleProfileCard from "./SimpleProfileCard";
 import MessagesOverlay from "./MessagesOverlay";
 
@@ -106,6 +107,7 @@ export default function CardHubExperiment() {
   // Modal states
   const [showCoach, setShowCoach] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   
@@ -383,6 +385,11 @@ export default function CardHubExperiment() {
       {/* Coach Overlay Modal */}
       {showCoach && (
         <CoachOverlay onCollapse={() => setShowCoach(false)} />
+      )}
+
+      {/* Dashboard Overlay Modal */}
+      {showDashboard && (
+        <DashboardOverlay onCollapse={() => setShowDashboard(false)} />
       )}
 
       {/* Expanded Settings Card */}
