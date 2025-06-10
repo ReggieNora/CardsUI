@@ -1,5 +1,14 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FloatingDock } from "./ui/FloatingDock";
+import {
+  IconBriefcase,
+  IconMessageCircle,
+  IconSettings,
+  IconBrain,
+  IconUser,
+  IconChartBar,
+} from "@tabler/icons-react";
 import { DraggableCardContainer, DraggableCardBody } from "./ui/draggable-card";
 import logo from "../assets/hirly-logo.png";
 import SettingsCard from "./SettingsCard";
@@ -161,6 +170,32 @@ export default function CardHubExperiment() {
         >
           Hirly
         </motion.h1>
+        {menuOpen && (
+          <div className="mt-4">
+            <FloatingDock
+              items={menuItems.map(item => ({
+                title: item.label,
+                icon:
+                  item.key === "jobs" ? <IconBriefcase className="w-6 h-6" /> :
+                  item.key === "messages" ? <IconMessageCircle className="w-6 h-6" /> :
+                  item.key === "settings" ? <IconSettings className="w-6 h-6" /> :
+                  item.key === "coach" ? <IconBrain className="w-6 h-6" /> :
+                  item.key === "profile" ? <IconUser className="w-6 h-6" /> :
+                  item.key === "analytics" ? <IconChartBar className="w-6 h-6" /> : null,
+                href: "#",
+                onClick: () => {
+                  setMenuOpen(false);
+                  if (item.key === "coach") setShowCoach(true);
+                  else if (item.key === "settings" || item.key === "profile") setExpandedCard(item.key);
+                  else if (item.key === "jobs") window.location.href = "/app/jobs";
+                  // Add additional logic for other cards if needed
+                }
+              }))}
+              desktopClassName="mt-2"
+              mobileClassName="mt-2"
+            />
+          </div>
+        )}
       </div>
 
       {/* Card Stack Container */}
