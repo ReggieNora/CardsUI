@@ -163,7 +163,7 @@ export default function CardHubExperiment() {
           role="button"
           aria-label="Open menu"
           onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setMenuOpen(open => !open); }}
-          className="cursor-pointer text-5xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/30 drop-shadow-lg outline-none focus:ring-2 focus:ring-purple-400"
+          className="cursor-pointer text-5xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/30 drop-shadow-lg outline-none"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
