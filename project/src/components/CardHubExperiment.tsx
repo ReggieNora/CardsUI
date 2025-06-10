@@ -170,32 +170,55 @@ export default function CardHubExperiment() {
         >
           Hirly
         </motion.h1>
-        {menuOpen && (
-          <div className="mt-4">
-            <FloatingDock
-              items={menuItems.map(item => ({
-                title: item.label,
-                icon:
-                  item.key === "jobs" ? <IconBriefcase className="w-6 h-6" /> :
-                  item.key === "messages" ? <IconMessageCircle className="w-6 h-6" /> :
-                  item.key === "settings" ? <IconSettings className="w-6 h-6" /> :
-                  item.key === "coach" ? <IconBrain className="w-6 h-6" /> :
-                  item.key === "profile" ? <IconUser className="w-6 h-6" /> :
-                  item.key === "analytics" ? <IconChartBar className="w-6 h-6" /> : null,
-                href: "#",
-                onClick: () => {
-                  setMenuOpen(false);
-                  if (item.key === "coach") setShowCoach(true);
-                  else if (item.key === "settings" || item.key === "profile") setExpandedCard(item.key);
-                  else if (item.key === "jobs") window.location.href = "/app/jobs";
-                  // Add additional logic for other cards if needed
-                }
-              }))}
-              desktopClassName="mt-2"
-              mobileClassName="mt-2"
-            />
-          </div>
-        )}
+        <AnimatePresence>
+          {menuOpen && (
+            <>
+              {/* Overlay for outside click */}
+              <motion.div
+                key="dock-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.25 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 z-20 bg-black cursor-pointer"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+              />
+              {/* Animated FloatingDock */}
+              <motion.div
+                key="dock-menu"
+                initial={{ opacity: 0, y: -32 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -24 }}
+                transition={{ type: "spring", stiffness: 340, damping: 32, duration: 0.32 }}
+                className="mt-4 z-30"
+              >
+                <FloatingDock
+                  items={menuItems.map(item => ({
+                    title: item.label,
+                    icon:
+                      item.key === "jobs" ? <IconBriefcase className="w-6 h-6" /> :
+                      item.key === "messages" ? <IconMessageCircle className="w-6 h-6" /> :
+                      item.key === "settings" ? <IconSettings className="w-6 h-6" /> :
+                      item.key === "coach" ? <IconBrain className="w-6 h-6" /> :
+                      item.key === "profile" ? <IconUser className="w-6 h-6" /> :
+                      item.key === "analytics" ? <IconChartBar className="w-6 h-6" /> : null,
+                    href: "#",
+                    onClick: () => {
+                      setMenuOpen(false);
+                      if (item.key === "coach") setShowCoach(true);
+                      else if (item.key === "settings" || item.key === "profile") setExpandedCard(item.key);
+                      else if (item.key === "jobs") window.location.href = "/app/jobs";
+                      // Add additional logic for other cards if needed
+                    }
+                  }))}
+                  desktopClassName="mt-2"
+                  mobileClassName="mt-2"
+                />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Card Stack Container */}
